@@ -52,7 +52,7 @@ def chat(req: ChatRequest):
 
     def stream():
         response = client.models.generate_content_stream(
-            model="gemini-3.5-flash-lite",
+           model="gemini-3.1-flash-lite",
             contents=conversation
         )
 
