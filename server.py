@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from google import genai
+from openai import OpenAI
 
 app = FastAPI(title="TamBOT AI")
 
@@ -30,35 +30,26 @@ def chat(req: ChatRequest):
     key = os.getenv("GEMINI_API_KEY")
 
     if not key:
-        raise HTTPException(
-            status_code=500,
-            detail="GEMINI_API_KEY is not configured on the server."
-        )
+        raise HTTPException(500, "GEMINI_API_KEY is not configured on the server.")
 
-    client = genai.Client(api_key=key)
-
-    conversation = SYSTEM + "\n\n"
-
-    for message in req.messages:
-        role = message.get("role", "user")
-        content = message.get("content", "")
-
-        if role == "user":
-            conversation += f"User: {content}\n"
-        elif role == "assistant":
-            conversation += f"TamBOT: {content}\n"
-
-    conversation += "\nTamBOT:"
+    client = OpenAI(
+        api_key=key,
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+    )
 
     def stream():
-        response = client.models.generate_content_stream(
-            model="gemini-3.5-flash-lite",
-            contents=conversation
+        response = client.chat.completions.create(
+            model="gemini-3.8-flash",
+            messages=[
+                {"role": "system", "content": SYSTEM},
+                *req.messages
+            ],
+            stream=True
         )
 
         for chunk in response:
-            if chunk.text:
-                yield chunk.text
+            if chunk.choices and chunk.choices[0].delta.content:
+                yield chunk.choices[0].delta.content
 
     return StreamingResponse(
         stream(),
