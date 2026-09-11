@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TamBOT AI — Created by itzz_thammi</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">T</div><div><b>TamBOT AI</b><small>Created by itzz_thammi</small></div></div>
+    <button id="newChat" class="new">＋ New chat</button>
+    <div class="memoryBox">
+      <b>Memory</b>
+      <p>Saved locally in this browser.</p>
+      <button id="clearMemory">Clear memory</button>
+    </div>
+  </aside>
+
+  <main>
+    <header><div class="mobileBrand">TamBOT AI</div><button id="memoryBtn">🧠 Memory</button></header>
+    <section id="chat" class="chat">
+      <div class="welcome">
+        <div class="orb">T</div>
+        <h1>Hey, I’m Thameem.</h1>
+        <p>I’m here to help with whatever you want.</p>
+        <small>Created by itzz_thammi</small>
+      </div>
+    </section>
+    <div class="composer">
+      <input id="file" type="file" accept="image/*" hidden>
+      <button id="attach" title="Add image">＋</button>
+      <button id="mic" title="Voice input">🎙️</button>
+      <textarea id="input" rows="1" placeholder="Talk to TamBOT…"></textarea>
+      <button id="send" class="send">➤</button>
+    </div>
+    <div class="status">TamBOT AI • Created by itzz_thammi</div>
+  </main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
